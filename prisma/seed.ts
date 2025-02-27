@@ -1,30 +1,26 @@
+import { faker } from "@faker-js/faker";
 import { prisma } from "@/lib/prisma";
 
 
+async function generateMockProducts(count = 100) {
+  return Array.from({ length: count }, () => ({
+    name: faker.commerce.productName(),
+    description: faker.commerce.productDescription(),
+    price: faker.number.int({ min: 10, max: 1000 }),
+    image: faker.image.urlPicsumPhotos({ width: 400, height: 400 }),
+    category: faker.commerce.department(),
+  }));
+}
+
+
 async function main() {
+  const MOCK_PRODUCTS = await generateMockProducts(100);
+
   await prisma.product.createMany({
-    data: [
-        { name: "iPhone 14" },
-        { name: "Samsung Galaxy S23 pro" },
-        { name: "MacBook Pro" },
-        { name: "Sony Headphones pro" },
-        { name: "iPad Air pro" },
-        { name: "Google Pixel 7 pro" },
-        { name: "Dell XPS 15 pro" },
-        { name: "Apple Watch Series 8 pro" },
-        { name: "Bose QuietComfort 45 pro" },
-        { name: "Nintendo Switch OLED pro" },
-        { name: "Sony PlayStation 5 pro" },
-        { name: "Xbox Series X pro" },
-        { name: "Samsung Galaxy Tab S8 pro" },
-        { name: "LG OLED C2 TV pro" },
-        { name: "Razer Gaming Mouse pro" },
-        { name: "JBL Bluetooth Speaker" },
-        { name: "Canon EOS R5 Camera" },
-        { name: "HP Spectre x360" },
-        { name: "OnePlus 11" },
-    ],
+    data: MOCK_PRODUCTS,
   });
+
+  console.log("100 products inserted successfully!");
 }
 
 main()

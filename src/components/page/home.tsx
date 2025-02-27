@@ -32,10 +32,18 @@ export const HomePage = () => {
   }, [query, handleSearch]);
 
   return (
-    <div className="max-w-lg mx-auto p-4">
+    <main className="container mx-auto py-10 px-4 max-w-4xl">
+      <h1 className="text-3xl font-bold mb-8 text-center">Product Search</h1>
       <h1 className="text-xl font-bold mb-4">Live Product Search</h1>
-      <SearchBox value={query} setValue={setQuery} />
-      <ProductList products={products} loading={isLoading} />
-    </div>
+      <SearchBox value={query} setValue={setQuery} isLoading={isLoading} />
+      {query.length > 0 && query.length < 3 && (
+        <p className="text-center text-gray-600 mb-4">Please enter at least 3 characters to search</p>
+      )}
+
+      {query.length >= 3 && !isLoading && products.length === 0 && (
+        <p className="text-center text-gray-600">No products found matching &quot;{query}&quot;</p>
+      )}
+      <ProductList products={products} isLoading={isLoading} />
+    </main>
   );
 };

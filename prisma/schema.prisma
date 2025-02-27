@@ -11,7 +11,9 @@ datasource db {
 
 model Product {
   id   Int    @id @default(autoincrement())
-  name String @unique
-
-  @@index([name])
+  name String
+  description String?
+  price Int @default(0)
+  image String?
+  category String?
 }
